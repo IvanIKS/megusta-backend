@@ -12,7 +12,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class JettyServer {
-    private static final int PORT = 8000;
+    private static final int PORT = 8080;
 
     private Logger logger = LoggerFactory.getLogger(JettyServer.class);
 

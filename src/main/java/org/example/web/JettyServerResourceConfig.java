@@ -8,7 +8,7 @@ import org.glassfish.jersey.server.filter.RolesAllowedDynamicFeature;
 public class JettyServerResourceConfig extends ResourceConfig {
 
     public JettyServerResourceConfig() {
-        packages("org.example.endpoints");
+        packages("org.example.web");
         register(RolesAllowedDynamicFeature.class);
         //register(AuthenticationFilter.class);
     }

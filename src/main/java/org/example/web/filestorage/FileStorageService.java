@@ -26,6 +26,10 @@ public class FileStorageService {
         storage.uploadFile(newFile);
     }
 
+    public void saveFile(File file) throws IOException {
+        storage.uploadFile(file);
+    }
+
     public void deleteFile(String fileId) {
         storage.deleteFile(fileId);
     }

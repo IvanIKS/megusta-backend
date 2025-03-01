@@ -1,13 +1,11 @@
 package org.example.web.filestorage;
 
-import lombok.Getter;
 
 import java.io.File;
 import java.io.IOException;
 
 public class FileStorageService {
     private static FileStorageService instance;
-    @Getter
     private Storage storage;
 
     private FileStorageService() {
@@ -36,6 +34,7 @@ public class FileStorageService {
         return storage.downloadFile(fileId);
     }
 
-
-
+    public Storage getStorage() {
+        return storage;
+    }
 }

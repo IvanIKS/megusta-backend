@@ -17,10 +17,11 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
+/*
 public class EthereumService {
     private static final String WS_URL = "wss://ethereum-sepolia-rpc.publicnode.com";
 
-    /*
+
     public static void main(String[] args) {
         try {
             WebSocketService wsService = new WebSocketService(WS_URL, true);
@@ -40,7 +41,7 @@ public class EthereumService {
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
-    }*/
+    }
 
 
     /*
@@ -86,5 +87,5 @@ public class EthereumService {
         // Print course
         System.out.println("Course at index " + index + " for teacher " + teacherAddress + ": " + course.toString());
     }
-*/
-}
+
+}*/

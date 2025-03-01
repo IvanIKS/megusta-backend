@@ -33,6 +33,8 @@ public class JettyServer {
         // Configure Jersey servlets
         ResourceConfig resourceConfig = new JettyServerResourceConfig();
         ServletHolder jerseyServlet = new ServletHolder(new ServletContainer(resourceConfig));
+        jerseyServlet.setInitParameter("jersey.config.server.provider.classnames",
+                "org.glassfish.jersey.jackson.JacksonFeature,org.example.web.YourResourceClass");
         jerseyServlet.setInitOrder(0);
         context.addServlet(jerseyServlet, "/*");
 

@@ -1,7 +1,6 @@
 package org.example.web.ethereum;
 
 import io.reactivex.disposables.Disposable;
-import io.reactivex.exceptions.UndeliverableException;
 import io.reactivex.functions.Action;
 import io.reactivex.functions.Consumer;
 import io.reactivex.internal.functions.ObjectHelper;
@@ -10,7 +9,6 @@ import org.reactivestreams.Subscription;
 import org.web3j.abi.TypeReference;
 import org.web3j.protocol.Web3j;
 import org.web3j.protocol.core.DefaultBlockParameterName;
-import org.web3j.protocol.core.filters.FilterException;
 import org.web3j.protocol.core.methods.request.EthFilter;
 import org.web3j.protocol.core.methods.response.EthLog;
 import org.web3j.protocol.core.methods.response.Log;
@@ -41,22 +39,16 @@ public class AuctionEventListener {
 
     private static final Event AUCTION_STARTED_EVENT = new Event("AuctionStarted",
             Arrays.asList(
-                    new TypeReference<Address>(true) {
-                    },  // contractAddress (indexed)
-                    new TypeReference<Uint256>(false) {
-                    }, // tokenId (not indexed)
-                    new TypeReference<Address>(true) {
-                    }   // seller (indexed)
+                    new TypeReference<Address>(true) {},  // contractAddress (indexed)
+                    new TypeReference<Uint256>(false) {}, // tokenId (not indexed)
+                    new TypeReference<Address>(true) {}   // seller (indexed)
             ));
 
     private static final Event AUCTION_ENDED_EVENT = new Event("AuctionEnded",
             Arrays.asList(
-                    new TypeReference<Address>(true) {
-                    },  // contractAddress (indexed)
-                    new TypeReference<Uint256>(false) {
-                    }, // tokenId (not indexed)
-                    new TypeReference<Address>(true) {
-                    }   // seller (indexed)
+                    new TypeReference<Address>(true) {},  // contractAddress (indexed)
+                    new TypeReference<Uint256>(false) {}, // tokenId (not indexed)
+                    new TypeReference<Address>(true) {}   // seller (indexed)
             ));
     String auctionStartedTopic = EventEncoder.encode(AUCTION_STARTED_EVENT);
     String auctionEndedTopic = EventEncoder.encode(AUCTION_ENDED_EVENT);
@@ -67,7 +59,7 @@ public class AuctionEventListener {
         this.web3j = web3j;
         this.contractAddress = contractAddress;
     }
-/*
+
     public void listenToAuctionEvents() {
 
 
@@ -101,58 +93,11 @@ public class AuctionEventListener {
                 handleAuctionEnded(event);
             }
         }, throwable -> log.error("Error listening to events", throwable));
-    }*/
-
-
-    public void listenToAuctionEvents() {
-
-        ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
-        // Recreate the filter every 4 minutes to prevent expiration
-        scheduler.scheduleAtFixedRate(() -> {
-            try {
-                // Unsubscribe old filter if it exists
-                if (subscription != null && !subscription.isDisposed()) {
-                    subscription.dispose();
-                }
-            } catch (UndeliverableException | FilterException ex) {
-                log.error(ex.getMessage());
-            } finally {
-                // Create new filter and subscribe
-                createAndSubscribeToFilter();
-
-                log.info("Subscribed to filter");
-            }
-
-
-        }, 0, 15, TimeUnit.SECONDS);
-    }
-
-    private Disposable subscription;
-
-    private void createAndSubscribeToFilter() {
-        String auctionStartedTopic = EventEncoder.encode(AUCTION_STARTED_EVENT);
-        String auctionEndedTopic = EventEncoder.encode(AUCTION_ENDED_EVENT);
-
-        EthFilter filter = new EthFilter(
-                DefaultBlockParameterName.LATEST,
-                DefaultBlockParameterName.LATEST,
-                contractAddress
-        ).addOptionalTopics(auctionStartedTopic, auctionEndedTopic);
-        log.info("Filter created: {}", filter);
-
-        subscription = web3j.ethLogFlowable(filter).subscribe(
-                this::processEvent,
-                throwable -> log.error("Error listening to events", throwable)
-        );
     }
 
     private void processEvent(Log event) {
         List<String> topics = event.getTopics();
         if (topics.isEmpty()) return;
-
-        for (String topic : topics) {
-            log.info("topic: " + topic);
-        }
 
         String eventSignature = topics.get(0);
         if (eventSignature.equals(auctionStartedTopic)) {
@@ -161,7 +106,6 @@ public class AuctionEventListener {
             handleAuctionEnded(event);
         }
     }
-
     private void handleAuctionStarted(Log event) {
         List<String> topics = event.getTopics();
         if (topics.size() < 3) return;
@@ -194,5 +138,4 @@ public class AuctionEventListener {
         this.subscribe(ls);
         return ls;
     }
-*/
-}
+*/}

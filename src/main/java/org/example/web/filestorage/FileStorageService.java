@@ -1,0 +1,41 @@
+package org.example.web.filestorage;
+
+import lombok.Getter;
+
+import java.io.File;
+import java.io.IOException;
+
+public class FileStorageService {
+    private static FileStorageService instance;
+    @Getter
+    private Storage storage;
+
+    private FileStorageService() {
+
+        storage = new LocalStorage();
+    }
+
+    public static FileStorageService getInstance() {
+        if (instance == null) {
+            instance = new FileStorageService();
+        }
+        return instance;
+    }
+
+    public void saveFile(File file, String extension) throws IOException {
+        File newFile = new File(file.getParent(), file.getName() + extension);
+        file.renameTo(newFile);
+        storage.uploadFile(newFile);
+    }
+
+    public void deleteFile(String fileId) {
+        storage.deleteFile(fileId);
+    }
+
+    public File downloadFile(String fileId) throws IOException {
+        return storage.downloadFile(fileId);
+    }
+
+
+
+}

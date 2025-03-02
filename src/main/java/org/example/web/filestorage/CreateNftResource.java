@@ -7,6 +7,8 @@ import jakarta.ws.rs.core.HttpHeaders;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
@@ -33,7 +35,9 @@ public class CreateNftResource {
                 return Response.status(Response.Status.BAD_REQUEST).entity("No file uploaded").build();
             }
 
-            fileStorageService.saveFile(file, NFT_EXTENSION);
+            BufferedImage input = ImageIO.read(file);
+            File outputFile = new File(UUID.randomUUID().toString() + NFT_EXTENSION);
+            ImageIO.write(input, "PNG", outputFile);
 
             NftImageData imageData = new NftImageData(file.getName() + NFT_EXTENSION);
 

@@ -34,7 +34,7 @@ public class NftService {
             request = HttpRequest.newBuilder()
                     .uri(new URI(MORALIS_API_ADDRESS
                             + address
-                            + "/nft?chain=holesky&format=decimal&media_items=false"))
+                            + "/nft?chain=sepolia&format=decimal&media_items=false"))
                     .header("accept", "application/json")
                     .header("X-API-Key", MORALIS_API_KEY)
                     .GET()
